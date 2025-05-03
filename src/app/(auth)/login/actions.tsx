@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth/server";
-import { APIError } from "better-call";
+import { APIError } from "better-auth/api";
 import { redirect } from "next/navigation";
 import { inspect } from "util";
 import { z } from "zod";

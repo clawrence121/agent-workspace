@@ -1,7 +1,7 @@
 import { AppHeader } from "@/components/app-header";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { getSessionFromHeaders } from "@/lib/auth/server";
+import { getRSCSession } from "@/lib/auth/server";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -10,13 +10,10 @@ export default async function DashboardLayout({
 }: {
   children: ReactNode;
 }) {
-  const session = await getSessionFromHeaders();
-
+  const session = await getRSCSession();
   if (!session) {
     redirect("/login");
   }
-
-  console.log(session);
 
   return (
     <SidebarProvider

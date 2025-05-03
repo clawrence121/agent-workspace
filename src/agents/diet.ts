@@ -44,7 +44,7 @@ export class DietAgent implements Agent {
             },
           },
         },
-        onStepFinish: (args) => console.log(args),
+        // onStepFinish: (args) => console.log(args),
         maxSteps: 5,
       }).toDataStreamResponse();
     } catch (e) {
@@ -94,6 +94,7 @@ const RecipeSchema = z.object({
     .describe("List of allergens present in the recipe"),
 });
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const RecipesSchema = z.object({
   recipes: z
     .array(RecipeSchema)
