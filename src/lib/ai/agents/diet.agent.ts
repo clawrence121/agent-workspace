@@ -1,56 +1,34 @@
-/**
- * This agent helps to track meals over time to provide feedback
- * and make suggestions
- */
-
-import { CoreMessage, streamText } from "ai";
-import { Agent } from "./agent.interface";
-import { model } from "@/lib/ai";
+import { tool } from "ai";
 import { z } from "zod";
+import { BaseAgent } from "./base.agent";
 
 const RECIPES: z.infer<typeof RecipeSchema>[] = [];
 
-export class DietAgent implements Agent {
+export class DietAgent extends BaseAgent {
   role =
     "You are a dietician that help to process food logs and make suggestions on how to improve health through diet over time.";
 
-  async sendMessage(messages: CoreMessage[]) {
-    try {
-      return streamText({
-        model: model,
-        messages: [
-          {
-            role: "system",
-            content: this.role,
-          },
-          ...messages,
-        ],
-        tools: {
-          addRecipe: {
-            description:
-              "Add a recipe to my log for later recall and trend analysis. If there are duplicates in the log, don't save the new recipe.",
-            parameters: RecipeSchema,
-            execute: async (recipe) => {
-              RECIPES.push(recipe);
-              return RECIPES;
-            },
-          },
-          getRecipes: {
-            description:
-              "Get all of my saved recipes so we can perform analysis and get insights.",
-            parameters: z.object({}),
-            execute: async () => {
-              return RECIPES;
-            },
-          },
-        },
-        // onStepFinish: (args) => console.log(args),
-        maxSteps: 5,
-      }).toDataStreamResponse();
-    } catch (e) {
-      console.log(e);
-    }
-  }
+  system = this.role;
+
+  tools = {
+    addRecipe: tool({
+      description:
+        "Add a recipe to my log for later recall and trend analysis. If there are duplicates in the log, don't save the new recipe.",
+      parameters: RecipeSchema,
+      execute: async (recipe) => {
+        RECIPES.push(recipe);
+        return RECIPES;
+      },
+    }),
+    getRecipes: tool({
+      description:
+        "Get all of my saved recipes so we can perform analysis and get insights.",
+      parameters: z.object({}),
+      execute: async () => {
+        return RECIPES;
+      },
+    }),
+  };
 }
 
 const IngredientSchema = z.object({

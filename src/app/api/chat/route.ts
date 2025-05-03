@@ -1,4 +1,4 @@
-import { DietAgent } from "@/agents/diet";
+import { routeCall } from "@/lib/ai/router";
 import { getRequestSession } from "@/lib/auth/server";
 import { NextResponse } from "next/server";
 
@@ -20,5 +20,7 @@ export async function POST(req: Request) {
   }
 
   const { messages } = await req.json();
-  return new DietAgent().sendMessage(messages);
+
+  const agent = await routeCall(messages);
+  return agent.streamText(messages);
 }

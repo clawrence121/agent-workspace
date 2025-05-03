@@ -10,7 +10,6 @@ import AIThinking from "@/components/ai-thinking";
 
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
-    api: "/agents/diet/chat",
     sendExtraMessageFields: true,
   });
 
@@ -59,11 +58,9 @@ export default function Chat() {
   return (
     <div className="flex flex-col h-full w-full">
       {/* Fixed Header */}
-      <div className="px-6 pb-4 border-b sticky top-0 bg-background z-10">
-        <h1 className="text-2xl font-bold">Diet Assistant</h1>
-        <p className="text-muted-foreground">
-          Track your meals and get nutritional guidance
-        </p>
+      <div className="px-6 py-4 border-b sticky top-0 bg-background z-10">
+        <h1 className="text-2xl font-bold">Your Assistant</h1>
+        {/* <p className="text-muted-foreground">Start a new chat</p> */}
       </div>
 
       {/* Scrollable Message Area */}
@@ -72,11 +69,12 @@ export default function Chat() {
           {messages.length === 0 ? (
             <div className="text-center p-8 text-muted-foreground">
               <p className="text-lg font-medium">
-                Start a conversation with your Diet Assistant!
+                Hey! I&apos;m your agentic assistant, what can I help you with
+                today?
               </p>
               <p className="text-sm mt-2">
-                Ask about meal tracking, nutritional advice, or dietary
-                suggestions.
+                I will route your questions to the best agents to assist with
+                your query
               </p>
             </div>
           ) : (
@@ -90,7 +88,7 @@ export default function Chat() {
       </div>
 
       {/* Fixed Input Area */}
-      <div className="p-4 border-t bg-background sticky bottom-0 z-10">
+      <div className="p-4 border-t sticky bottom-0 z-10">
         <div className="max-w-5xl mx-auto">
           <form onSubmit={onSubmit} className="space-y-2">
             <div className="flex gap-2">
