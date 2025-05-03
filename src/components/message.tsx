@@ -3,6 +3,7 @@ import { Avatar } from "./ui/avatar";
 import AIAvatar from "./ai-avatar";
 import UserAvatar from "./user-avatar";
 import Image from "next/image";
+import ReactMarkdown from "react-markdown";
 
 function Message({ message }: { message: UIMessage }) {
   return (
@@ -32,7 +33,9 @@ function Message({ message }: { message: UIMessage }) {
               : "bg-muted"
           }`}
         >
-          <div className="whitespace-pre-wrap">{message.content}</div>
+          <div className="whitespace-pre-wrap">
+            <ReactMarkdown>{message.content}</ReactMarkdown>
+          </div>
           {message.experimental_attachments
             ?.filter((attachment) =>
               attachment?.contentType?.startsWith("image/"),

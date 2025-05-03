@@ -1,81 +1,186 @@
-import * as React from "react";
-import { GalleryVerticalEnd } from "lucide-react";
+"use client";
 
+import * as React from "react";
+import {
+  IconCamera,
+  IconChartBar,
+  IconDashboard,
+  IconDatabase,
+  IconFileAi,
+  IconFileDescription,
+  IconFileWord,
+  IconFolder,
+  IconHelp,
+  IconInnerShadowTop,
+  IconListDetails,
+  IconReport,
+  IconSearch,
+  IconSettings,
+  IconUsers,
+} from "@tabler/icons-react";
+
+import { NavDocuments } from "@/components/nav-documents";
+import { NavMain } from "@/components/nav-main";
+import { NavSecondary } from "@/components/nav-secondary";
+import { NavUser } from "@/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
-// This is sample data.
 const data = {
   navMain: [
     {
-      title: "Agents",
+      title: "Chat",
       url: "#",
-      items: [
-        {
-          title: "Diet",
-          url: "#",
-          isActive: true,
-        },
-      ],
+      icon: IconDashboard,
     },
+    {
+      title: "Web Search",
+      url: "#",
+      icon: IconListDetails,
+    },
+    {
+      title: "Linear",
+      url: "#",
+      icon: IconChartBar,
+    },
+    // {
+    //   title: "Projects",
+    //   url: "#",
+    //   icon: IconFolder,
+    // },
+    // {
+    //   title: "Team",
+    //   url: "#",
+    //   icon: IconUsers,
+    // },
+  ],
+  navClouds: [
+    // {
+    //   title: "Capture",
+    //   icon: IconCamera,
+    //   isActive: true,
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Active Proposals",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Archived",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Proposal",
+    //   icon: IconFileDescription,
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Active Proposals",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Archived",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Prompts",
+    //   icon: IconFileAi,
+    //   url: "#",
+    //   items: [
+    //     {
+    //       title: "Active Proposals",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Archived",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
+  ],
+  navSecondary: [
+    // {
+    //   title: "Settings",
+    //   url: "#",
+    //   icon: IconSettings,
+    // },
+    // {
+    //   title: "Get Help",
+    //   url: "#",
+    //   icon: IconHelp,
+    // },
+    // {
+    //   title: "Search",
+    //   url: "#",
+    //   icon: IconSearch,
+    // },
+  ],
+  documents: [
+    // {
+    //   name: "Data Library",
+    //   url: "#",
+    //   icon: IconDatabase,
+    // },
+    // {
+    //   name: "Reports",
+    //   url: "#",
+    //   icon: IconReport,
+    // },
+    // {
+    //   name: "Word Assistant",
+    //   url: "#",
+    //   icon: IconFileWord,
+    // },
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  user,
+  ...props
+}: { user: { name: string; email: string } } & React.ComponentProps<
+  typeof Sidebar
+>) {
   return (
-    <Sidebar variant="floating" {...props}>
+    <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton
+              asChild
+              className="data-[slot=sidebar-menu-button]:!p-1.5"
+            >
               <a href="#">
-                <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
-                  <GalleryVerticalEnd className="size-4" />
-                </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Agent Workspace</span>
-                </div>
+                <IconInnerShadowTop className="!size-5" />
+                <span className="text-base font-semibold">Agent Workspace</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarMenu className="gap-2">
-            {data.navMain.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {item.title}
-                  </a>
-                </SidebarMenuButton>
-                {item.items?.length ? (
-                  <SidebarMenuSub className="ml-0 border-l-0 px-1.5">
-                    {item.items.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroup>
+        <NavMain items={data.navMain} />
+        <NavDocuments items={data.documents} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser
+          user={{
+            ...user,
+            avatar: "/avatars/shadcn.jpg",
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 }
