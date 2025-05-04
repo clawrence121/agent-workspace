@@ -6,6 +6,11 @@ import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 
 function Message({ message }: { message: UIMessage }) {
+  console.log(message);
+  const toolCall: string | undefined = message.parts.findLast(
+    (part) => part.type === "tool-invocation",
+  )?.toolInvocation.toolName;
+
   return (
     <div
       className={`flex ${
@@ -34,8 +39,15 @@ function Message({ message }: { message: UIMessage }) {
           }`}
         >
           <div className="whitespace-pre-wrap">
-            <ReactMarkdown>{message.content}</ReactMarkdown>
+            {message.content.length > 0 ? (
+              <ReactMarkdown>{message.content}</ReactMarkdown>
+            ) : toolCall ? (
+              <span className="text-sm font-light italic opacity-75">
+                {"Calling tool: " + toolCall}
+              </span>
+            ) : null}
           </div>
+
           {message.experimental_attachments
             ?.filter((attachment) =>
               attachment?.contentType?.startsWith("image/"),

@@ -11,6 +11,9 @@ import AIThinking from "@/components/ai-thinking";
 export default function Chat() {
   const { messages, input, handleInputChange, handleSubmit, status } = useChat({
     sendExtraMessageFields: true,
+    onFinish(message, options) {
+      console.log(message, options);
+    },
   });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -95,7 +98,7 @@ export default function Chat() {
               <Input
                 value={input}
                 onChange={handleInputChange}
-                placeholder="Ask about meal tracking, diet suggestions..."
+                placeholder="How can I help?"
                 className="flex-1"
                 disabled={status !== "ready"}
               />

@@ -5,10 +5,11 @@ import { BaseAgent } from "./base.agent";
 const RECIPES: z.infer<typeof RecipeSchema>[] = [];
 
 export class DietAgent extends BaseAgent {
-  role =
-    "You are a dietician that help to process food logs and make suggestions on how to improve health through diet over time.";
+  description =
+    "The diet agent is able to track recipes that have been eaten, and provide insights on food patterns and suggestiosn for new items to cook.";
 
-  system = this.role;
+  system =
+    "You are a dietician that help to process food logs and make suggestions on how to improve health through diet over time.";
 
   tools = {
     addRecipe: tool({
