@@ -38,7 +38,7 @@ function Message({ message }: { message: UIMessage }) {
               : "bg-muted"
           }`}
         >
-          <div className="whitespace-pre-wrap">
+          <div className="">
             {message.content.length > 0 ? (
               <ReactMarkdown>{message.content}</ReactMarkdown>
             ) : toolCall ? (
